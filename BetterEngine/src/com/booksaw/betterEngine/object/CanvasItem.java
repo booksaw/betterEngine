@@ -16,7 +16,7 @@ public class CanvasItem extends Object {
 
 	@Override
 	protected ObjectRenderer createRenderer() {
-		return new TestRender();
+		return new TestRender(this);
 	}
 
 }

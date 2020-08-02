@@ -20,6 +20,9 @@ public class Main implements Listener {
 
 		CanvasItem obj = new CanvasItem(0, 0, 10, 10);
 		obj.getRenderer().getImage();
+		
+		Logger.error("hi");
+		Logger.warning("hit");
 	}
 
 	@EventListener

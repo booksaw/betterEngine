@@ -2,9 +2,6 @@ package com.booksaw.betterEngine;
 
 public class Logger {
 
-	private static final String ANSI_RED = "\u001B[31m";
-	private static final String ANSI_RESET = "\u001B[0m";
-
 	/**
 	 * Used to log a message after all formatting is carried out
 	 * 
@@ -38,7 +35,7 @@ public class Logger {
 	 * @param message the error message
 	 */
 	public static void error(String message) {
-		logRawMessage(ANSI_RED + "[ERROR] " + message + ANSI_RESET);
+		logRawMessage("[ERROR] " + message);
 	}
 
 }
