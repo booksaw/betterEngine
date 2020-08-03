@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 
 import com.booksaw.betterEngine.Game;
+import com.booksaw.betterEngine.Logger;
 
 /**
  * This class is used to wrap the game within a JFrame (panel wrapper is still
@@ -25,6 +26,7 @@ public class FrameWrapper extends JFrame {
 	 * @return the instance of a frame wrapper which has been built correctly
 	 */
 	public static FrameWrapper buildDefaultFrame(Game game) {
+		Logger.info("Creating instance of FrameWrapper");
 		FrameWrapper frame = new FrameWrapper(game);
 		// TODO GAME NAME
 		frame.setName("GAME");

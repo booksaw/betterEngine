@@ -1,12 +1,11 @@
 package com.booksaw.testCode;
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 
 import com.booksaw.betterEngine.Game;
-import com.booksaw.betterEngine.Logger;
-import com.booksaw.betterEngine.event.EventListener;
 import com.booksaw.betterEngine.event.EventManager;
-import com.booksaw.betterEngine.event.EventPriority;
 import com.booksaw.betterEngine.event.Listener;
 import com.booksaw.betterEngine.event.events.ExampleEvent;
 import com.booksaw.betterEngine.object.CanvasItem;
@@ -24,33 +23,10 @@ public class Main implements Listener {
 
 		CanvasItem obj = new CanvasItem(50, 50, 10, 10);
 
-		Logger.error("hi");
-		Logger.warning("hit");
-
-		Game game = new Game();
+		Game game = new Game(new Dimension(700, 400));
 		game.addObject(obj);
 		JFrame wrapper = FrameWrapper.buildDefaultFrame(game);
 		wrapper.setVisible(true);
-	}
-
-	@EventListener
-	public void annotatedTestEvent() {
-
-	}
-
-	@EventListener(ignoreCancelled = false)
-	public void onEvents(ExampleEvent e) {
-		System.out.println("event running NORMAL");
-	}
-
-	@EventListener(priority = EventPriority.HIGHEST)
-	public void onEvent(ExampleEvent e) {
-		e.setCancelled(true);
-		System.out.println("event running HIGHEST");
-	}
-
-	public void testEvent() {
-
 	}
 
 }

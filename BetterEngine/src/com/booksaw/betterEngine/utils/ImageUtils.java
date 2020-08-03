@@ -10,8 +10,6 @@ import com.booksaw.betterEngine.Logger;
 
 public class ImageUtils {
 
-	
-	
 	/**
 	 * Used to load the image from the name of the image including the image path
 	 * 
@@ -58,7 +56,6 @@ public class ImageUtils {
 		// this is used to load the image texture that should be used if the texture is
 		// not found
 		try {
-			System.out.println("trying for no texture");
 			return ImageIO.read(Utils.getCompiledResouce("noTexture.png"));
 		} catch (IOException e) {
 			Logger.error("Could not find the no texture image (noTexture.png)");

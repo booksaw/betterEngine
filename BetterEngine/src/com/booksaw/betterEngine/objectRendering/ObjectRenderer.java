@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import com.booksaw.betterEngine.camera.Camera;
 import com.booksaw.betterEngine.object.Object;
 
 public abstract class ObjectRenderer {
@@ -30,8 +31,8 @@ public abstract class ObjectRenderer {
 	 * @param scale The scale of the camera compared to in game units
 	 * @return the on screen x coord of the top left corner of the object
 	 */
-	protected int getRenderedX(double scale) {
-		return (int) ((object.getX() - (object.getWidth() / 2)) * scale);
+	protected int getRenderedX(Camera camera) {
+		return (int) (((object.getX() - camera.getX()) - (object.getWidth() / 2)) * camera.getScale());
 	}
 
 	/**
@@ -42,8 +43,8 @@ public abstract class ObjectRenderer {
 	 * @param cameraHeight the height of the camera in pixels
 	 * @return the on screen y coord of the top left corner of the object
 	 */
-	protected int getRenderedY(double scale, int cameraHeight) {
-		return cameraHeight - getRenderedYNoCamera(scale);
+	protected int getRenderedY(Camera camera) {
+		return camera.getCameraHeightPixels() - getRenderedYNoCamera(camera);
 	}
 
 	/**
@@ -52,8 +53,8 @@ public abstract class ObjectRenderer {
 	 * @param scale The scale of the camera compared to in game units
 	 * @return the width on screen of the object
 	 */
-	protected int getRenderedWidth(double scale) {
-		return (int) (scale * object.getWidth());
+	protected int getRenderedWidth(Camera camera) {
+		return (int) (camera.getScale() * object.getWidth());
 	}
 
 	/**
@@ -62,8 +63,8 @@ public abstract class ObjectRenderer {
 	 * @param scale The scame of the camera compared to in game units
 	 * @return the height on screen of the object
 	 */
-	protected int getRenderedHeight(double scale) {
-		return (int) (scale * object.getHeight());
+	protected int getRenderedHeight(Camera camera) {
+		return (int) (camera.getScale() * object.getHeight());
 	}
 
 	/**
@@ -72,8 +73,8 @@ public abstract class ObjectRenderer {
 	 * @param scale
 	 * @return
 	 */
-	private int getRenderedYNoCamera(double scale) {
-		return ((int) ((object.getY() - (object.getHeight() / 2)) * scale));
+	private int getRenderedYNoCamera(Camera camera) {
+		return ((int) (((object.getY() - camera.getY()) - (object.getHeight() / 2)) * camera.getScale()));
 	}
 
 	/**
@@ -100,11 +101,10 @@ public abstract class ObjectRenderer {
 	 * 
 	 * @param g the graphics component of the container
 	 */
-	public void paint(Graphics g, double scale, int cameraHeight) {
+	public void paint(Graphics g, Camera camera) {
 		// TODO massively improve
-		System.out.println("painting");
-		g.drawImage(getImage(), getRenderedX(scale), getRenderedY(scale, cameraHeight), getRenderedWidth(scale),
-				getRenderedHeight(scale), null);
+		g.drawImage(getImage(), getRenderedX(camera), getRenderedY(camera), getRenderedWidth(camera),
+				getRenderedHeight(camera), null);
 	}
 
 	// END OF RENDERING CODE

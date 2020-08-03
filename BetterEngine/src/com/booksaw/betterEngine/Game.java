@@ -1,8 +1,11 @@
 package com.booksaw.betterEngine;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.HashMap;
 
+import com.booksaw.betterEngine.camera.Camera;
 import com.booksaw.betterEngine.object.Object;
 import com.booksaw.betterEngine.objectRendering.ObjectRenderer;
 
@@ -15,16 +18,33 @@ import com.booksaw.betterEngine.objectRendering.ObjectRenderer;
 public class Game {
 
 	private final HashMap<Object, ObjectRenderer> objects = new HashMap<>();
+	private Color backgroundColor;
+	private Camera camera;
+
+	public Game(Dimension gameDimensions) {
+		camera = new Camera(gameDimensions);
+	}
 
 	public void paint(Graphics g) {
 
+		// filling the background
+		g.setColor(backgroundColor);
+		g.fillRect(0, 0, 1000, 1000);
 		objects.forEach((obj, renderer) -> {
-			renderer.paint(g, 5, 400);
+			renderer.paint(g, camera);
 		});
 	}
 
 	public void addObject(Object object) {
 		objects.put(object, object.getRenderer());
 	}
-	
+
+	public Color getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public void setBackgroundColor(Color backgroundColor) {
+		this.backgroundColor = backgroundColor;
+	}
+
 }

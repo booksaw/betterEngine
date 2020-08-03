@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import com.booksaw.betterEngine.Game;
+import com.booksaw.betterEngine.Logger;
 
 /**
  * This class is used to wrap a game instance into a JPanel
@@ -19,6 +20,7 @@ public class PanelWrapper extends JPanel {
 	private final Game game;
 
 	public PanelWrapper(Game game) {
+		Logger.info("Creating PanelWrapper instance");
 		this.game = game;
 	}
 
