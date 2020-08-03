@@ -1,5 +1,7 @@
 package com.booksaw.betterEngine.utils;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -61,5 +63,39 @@ public class ImageUtils {
 			Logger.error("Could not find the no texture image (noTexture.png)");
 			return null;
 		}
+	}
+
+	/**
+	 * Used to scale an image a given scale
+	 * 
+	 * @param image The image to scale
+	 * @param scale The scale to change the image by
+	 * @return The Image of the scaled bufferedImage
+	 */
+	public static Image getScaledInstance(BufferedImage image, double scale) {
+		return image.getScaledInstance((int) (image.getWidth() * scale), (int) (image.getHeight()), Image.SCALE_SMOOTH);
+	}
+
+	/**
+	 * Converts a given Image into a BufferedImage
+	 *
+	 * @param img The Image to be converted
+	 * @return The converted BufferedImage
+	 */
+	public static BufferedImage toBufferedImage(Image img) {
+		if (img instanceof BufferedImage) {
+			return (BufferedImage) img;
+		}
+
+		// Create a buffered image with transparency
+		BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+		// Draw the image on to the buffered image
+		Graphics2D bGr = bimage.createGraphics();
+		bGr.drawImage(img, 0, 0, null);
+		bGr.dispose();
+
+		// Return the buffered image
+		return bimage;
 	}
 }

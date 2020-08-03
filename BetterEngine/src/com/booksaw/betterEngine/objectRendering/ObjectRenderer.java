@@ -99,12 +99,30 @@ public abstract class ObjectRenderer {
 	/**
 	 * Called whenever this object should be drawn to the screen
 	 * 
-	 * @param g the graphics component of the container
+	 * @param g      the graphics component of the container
+	 * @param camera The camera which the object is being viewed through
 	 */
 	public void paint(Graphics g, Camera camera) {
-		// TODO massively improve
-		g.drawImage(getImage(), getRenderedX(camera), getRenderedY(camera), getRenderedWidth(camera),
-				getRenderedHeight(camera), null);
+		// calculating the positions of the rendered location
+		paint(g, camera, getRenderedHeight(camera), getRenderedHeight(camera), getRenderedWidth(camera),
+				getRenderedHeight(camera), object.getAngle());
+	}
+
+	/**
+	 * Called by paint, override if standard graphics do not do what your subclass
+	 * needs it to
+	 * 
+	 * @param g      The graphics component of the container
+	 * @param camera The camera which the object is being viewed through
+	 * @param x      The x location of the top left corner of the object (in pixels)
+	 * @param y      the y location of the top right corner of the object (in
+	 *               pixels)
+	 * @param width  the width of the object (in pixels)
+	 * @param height the height of the object (in pixels)
+	 * @param angle  the angle at which the object is at
+	 */
+	private void paint(Graphics g, Camera camera, int x, int y, int width, int height, double angle) {
+		g.drawImage(getImage(), x, y, width, height, null);
 	}
 
 	// END OF RENDERING CODE
