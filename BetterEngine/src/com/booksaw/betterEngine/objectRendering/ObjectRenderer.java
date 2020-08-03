@@ -39,7 +39,6 @@ public abstract class ObjectRenderer {
 			BufferedImage temp = ImageUtils.toBufferedImage(
 					ImageUtils.getScaledInstance(getImage(), (int) object.getWidth(), (int) object.getHeight()));
 			BufferedImage image = ImageUtils.toBufferedImage(ImageUtils.getScaledInstance(temp, getMinimum()));
-			System.out.println("width = " + image.getWidth() + " height = " + image.getHeight());
 			return ImageUtils.rotateImageByRadians(image, angle);
 		}
 	}
@@ -99,9 +98,6 @@ public abstract class ObjectRenderer {
 		double w = object.getWidth();
 		double h = object.getHeight();
 
-		System.out.println(
-				"width = " + (w * Math.abs(Math.cos(object.getAngle())) + (h * Math.abs(Math.sin(object.getAngle())))));
-
 		return (int) ((w * Math.abs(Math.cos(object.getAngle())) + (h * Math.abs(Math.sin(object.getAngle()))))
 				* camera.getScale());
 	}
@@ -115,8 +111,7 @@ public abstract class ObjectRenderer {
 	protected int getRenderedHeight(Camera camera) {
 		double w = object.getWidth();
 		double h = object.getHeight();
-		System.out.println("height = "
-				+ (w * Math.abs(Math.sin(object.getAngle())) + (h * Math.abs(Math.cos(object.getAngle())))));
+
 		return (int) ((w * Math.abs(Math.sin(object.getAngle())) + (h * Math.abs(Math.cos(object.getAngle()))))
 				* camera.getScale());
 	}
