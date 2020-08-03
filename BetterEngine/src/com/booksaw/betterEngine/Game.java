@@ -3,6 +3,7 @@ package com.booksaw.betterEngine;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.HashMap;
 
 import com.booksaw.betterEngine.camera.Camera;
@@ -30,8 +31,11 @@ public class Game {
 		// filling the background
 		g.setColor(backgroundColor);
 		g.fillRect(0, 0, 1000, 1000);
+		Rectangle cameraCollision = camera.getLooseCollision();
 		objects.forEach((obj, renderer) -> {
-			renderer.paint(g, camera);
+			if (cameraCollision.intersects(renderer.getLooseCollision())) {
+				renderer.paint(g, camera);
+			}
 		});
 	}
 

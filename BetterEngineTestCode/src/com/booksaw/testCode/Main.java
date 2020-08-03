@@ -26,6 +26,7 @@ public class Main implements Listener {
 		Game game = new Game(new Dimension(700, 400));
 		game.addObject(obj);
 		JFrame wrapper = FrameWrapper.buildDefaultFrame(game);
+		wrapper.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		wrapper.setVisible(true);
 	}
 

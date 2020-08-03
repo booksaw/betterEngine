@@ -1,6 +1,7 @@
 package com.booksaw.betterEngine.camera;
 
 import java.awt.Dimension;
+import java.awt.Rectangle;
 
 public class Camera {
 
@@ -74,6 +75,16 @@ public class Camera {
 
 	public void setScale(double scale) {
 		this.scale = scale;
+	}
+
+	/**
+	 * This method is used to check if an object is on camera, and thus should be rendered
+	 * 
+	 * @return A rectangle which is the collision of this camera within in game
+	 *         units
+	 */
+	public Rectangle getLooseCollision() {
+		return new Rectangle((int) x, (int) y, (int) getWidth(), (int) getHeight());
 	}
 
 }
