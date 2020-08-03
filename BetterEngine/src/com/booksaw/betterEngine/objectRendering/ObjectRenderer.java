@@ -1,5 +1,6 @@
 package com.booksaw.betterEngine.objectRendering;
 
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
@@ -91,5 +92,21 @@ public abstract class ObjectRenderer {
 	}
 
 	// END OF LOCATION CONVERSION
+
+	// RENDERING CODE
+
+	/**
+	 * Called whenever this object should be drawn to the screen
+	 * 
+	 * @param g the graphics component of the container
+	 */
+	public void paint(Graphics g, double scale, int cameraHeight) {
+		// TODO massively improve
+		System.out.println("painting");
+		g.drawImage(getImage(), getRenderedX(scale), getRenderedY(scale, cameraHeight), getRenderedWidth(scale),
+				getRenderedHeight(scale), null);
+	}
+
+	// END OF RENDERING CODE
 
 }
