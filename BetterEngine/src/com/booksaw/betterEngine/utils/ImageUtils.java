@@ -2,6 +2,7 @@ package com.booksaw.betterEngine.utils;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -73,7 +74,39 @@ public class ImageUtils {
 	 * @return The Image of the scaled bufferedImage
 	 */
 	public static Image getScaledInstance(BufferedImage image, double scale) {
-		return image.getScaledInstance((int) (image.getWidth() * scale), (int) (image.getHeight()), Image.SCALE_SMOOTH);
+		return image.getScaledInstance((int) (image.getWidth() * scale), (int) (image.getHeight() * scale),
+				Image.SCALE_SMOOTH);
+	}
+
+	/**
+	 * Used to scale an image a given scale
+	 * 
+	 * @param image  The image to scale
+	 * @param width  The width of the target image
+	 * @param height The height of the target image
+	 * @return The Image of the scaled bufferedImage
+	 */
+	public static Image getScaledInstance(BufferedImage image, int width, int height) {
+		return image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+	}
+
+	/**
+	 * Used when you are unsure of what the scale should be, it will calculate the
+	 * scale from a provided miniumum length
+	 * 
+	 * @param image   The image to scale
+	 * @param minimum The minimum side length
+	 * @return The image
+	 */
+	public static Image getScaledInstance(BufferedImage image, int minimum) {
+		double scale;
+		if (image.getHeight() < image.getWidth()) {
+			scale = (double) minimum / image.getHeight();
+		} else {
+			scale = (double) minimum / image.getWidth();
+		}
+		return getScaledInstance(image, scale);
+
 	}
 
 	/**
@@ -97,5 +130,30 @@ public class ImageUtils {
 
 		// Return the buffered image
 		return bimage;
+	}
+
+	public static BufferedImage rotateImageByRadians(BufferedImage img, double rads) {
+
+		double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));
+		int w = img.getWidth();
+		int h = img.getHeight();
+		int newWidth = (int) Math.floor(w * cos + h * sin);
+		int newHeight = (int) Math.floor(h * cos + w * sin);
+
+		BufferedImage rotated = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2d = rotated.createGraphics();
+		AffineTransform at = new AffineTransform();
+		at.translate((newWidth - w) / 2, (newHeight - h) / 2);
+
+		int x = w / 2;
+		int y = h / 2;
+
+		at.rotate(rads, x, y);
+		g2d.setTransform(at);
+		g2d.drawImage(img, 0, 0, null);
+//		g2d.drawRect(0, 0, newWidth - 1, newHeight - 1);
+		g2d.dispose();
+
+		return rotated;
 	}
 }

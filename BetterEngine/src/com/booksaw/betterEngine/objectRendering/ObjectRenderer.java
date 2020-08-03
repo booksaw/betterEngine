@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 import com.booksaw.betterEngine.camera.Camera;
 import com.booksaw.betterEngine.object.Object;
+import com.booksaw.betterEngine.utils.ImageUtils;
 
 public abstract class ObjectRenderer {
 
@@ -22,25 +23,66 @@ public abstract class ObjectRenderer {
 	 */
 	public abstract BufferedImage getImage();
 
+	/**
+	 * Used to get the correctly rotated version of the Object.object image
+	 * 
+	 * @return The rotated version of the rendered image
+	 */
+	public BufferedImage getRotatedImage(double angle) {
+		// less graphics intensive rendering
+		if (angle == 0) {
+			BufferedImage image = getImage();
+			return ImageUtils.rotateImageByRadians(image, angle);
+		} else {
+			// ensuring the image is a large enough scale
+			// TODO improve massively
+			BufferedImage temp = ImageUtils.toBufferedImage(
+					ImageUtils.getScaledInstance(getImage(), (int) object.getWidth(), (int) object.getHeight()));
+			BufferedImage image = ImageUtils.toBufferedImage(ImageUtils.getScaledInstance(temp, getMinimum()));
+			System.out.println("width = " + image.getWidth() + " height = " + image.getHeight());
+			return ImageUtils.rotateImageByRadians(image, angle);
+		}
+	}
+
+	/**
+	 * This method is used to calculate the minimum size of the image to show a
+	 * smooth edge without intense processing
+	 * 
+	 * @return the minimum side length for the shape to look correct
+	 */
+	private int getMinimum() {
+		// TODO
+		return 500;
+	}
+
 	// CONVERTING LOCATION INTO RENDERED LOCATION
-	// TODO include camera scale in all rendered values
 
 	/**
 	 * Used to get the top left corner of where the object should be rendered
 	 * 
-	 * @param scale The scale of the camera compared to in game units
+	 * @param camera The camera which is viewing the object
 	 * @return the on screen x coord of the top left corner of the object
 	 */
 	protected int getRenderedX(Camera camera) {
-		return (int) (((object.getX() - camera.getX()) - (object.getWidth() / 2)) * camera.getScale());
+		return (int) ((object.getX() - camera.getX()) * camera.getScale()) - (getRenderedWidth(camera) / 2);
+	}
+
+	/**
+	 * This method is used to get the y value of the object without flipping it to
+	 * match the renderer
+	 * 
+	 * @param camera The camera which is viewing the object
+	 * @return The y value of object
+	 */
+	private int getRenderedYNoCamera(Camera camera) {
+		return (int) ((object.getY() - camera.getY()) * camera.getScale()) + (getRenderedHeight(camera) / 2);
 	}
 
 	/**
 	 * Used to get the y coord of the top left corner of where the object should be
 	 * rendered
 	 * 
-	 * @param scale        The scale of the camera compared to in game units
-	 * @param cameraHeight the height of the camera in pixels
+	 * @param camera The camera which is viewing the object
 	 * @return the on screen y coord of the top left corner of the object
 	 */
 	protected int getRenderedY(Camera camera) {
@@ -50,31 +92,53 @@ public abstract class ObjectRenderer {
 	/**
 	 * Used to get the rendered width of the object
 	 * 
-	 * @param scale The scale of the camera compared to in game units
+	 * @param camera The camera which is viewing the object
 	 * @return the width on screen of the object
 	 */
 	protected int getRenderedWidth(Camera camera) {
-		return (int) (camera.getScale() * object.getWidth());
+		double w = object.getWidth();
+		double h = object.getHeight();
+
+		System.out.println(
+				"width = " + (w * Math.abs(Math.cos(object.getAngle())) + (h * Math.abs(Math.sin(object.getAngle())))));
+
+		return (int) ((w * Math.abs(Math.cos(object.getAngle())) + (h * Math.abs(Math.sin(object.getAngle()))))
+				* camera.getScale());
 	}
 
 	/**
 	 * Used to get the rendered height of the object
 	 * 
-	 * @param scale The scame of the camera compared to in game units
+	 * @param camera The camera which is viewing the object
 	 * @return the height on screen of the object
 	 */
 	protected int getRenderedHeight(Camera camera) {
-		return (int) (camera.getScale() * object.getHeight());
+		double w = object.getWidth();
+		double h = object.getHeight();
+		System.out.println("height = "
+				+ (w * Math.abs(Math.sin(object.getAngle())) + (h * Math.abs(Math.cos(object.getAngle())))));
+		return (int) ((w * Math.abs(Math.sin(object.getAngle())) + (h * Math.abs(Math.cos(object.getAngle()))))
+				* camera.getScale());
 	}
 
 	/**
-	 * This method is used to get the y value of the
+	 * This is used to calculate the scaled width of the object without rotation
 	 * 
-	 * @param scale
-	 * @return
+	 * @param camera The camera, this is used to get the scale
+	 * @return the scaled width
 	 */
-	private int getRenderedYNoCamera(Camera camera) {
-		return ((int) (((object.getY() - camera.getY()) - (object.getHeight() / 2)) * camera.getScale()));
+	protected double getScaledWidth(Camera camera) {
+		return camera.getScale() * object.getWidth();
+	}
+
+	/**
+	 * This is used to calculate the scaled height of the object without rotation
+	 * 
+	 * @param camera The camera, this is used to get the scale
+	 * @return the scaled height
+	 */
+	protected double getScaledHeight(Camera camera) {
+		return camera.getScale() * object.getHeight();
 	}
 
 	/**
@@ -104,7 +168,7 @@ public abstract class ObjectRenderer {
 	 */
 	public void paint(Graphics g, Camera camera) {
 		// calculating the positions of the rendered location
-		paint(g, camera, getRenderedHeight(camera), getRenderedHeight(camera), getRenderedWidth(camera),
+		paint(g, camera, getRenderedX(camera), getRenderedY(camera), getRenderedWidth(camera),
 				getRenderedHeight(camera), object.getAngle());
 	}
 
@@ -122,7 +186,7 @@ public abstract class ObjectRenderer {
 	 * @param angle  the angle at which the object is at
 	 */
 	private void paint(Graphics g, Camera camera, int x, int y, int width, int height, double angle) {
-		g.drawImage(getImage(), x, y, width, height, null);
+		g.drawImage(getRotatedImage(angle), x, y, width, height, null);
 	}
 
 	// END OF RENDERING CODE
