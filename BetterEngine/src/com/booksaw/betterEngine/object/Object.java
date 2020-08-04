@@ -1,14 +1,17 @@
 package com.booksaw.betterEngine.object;
 
+import com.booksaw.betterEngine.event.EventManager;
+import com.booksaw.betterEngine.event.events.ObjectMoveEvent;
+import com.booksaw.betterEngine.event.events.ObjectTeleportEvent;
+import com.booksaw.betterEngine.movement.Location;
 import com.booksaw.betterEngine.objectRendering.ObjectRenderer;
 
 public abstract class Object {
 
 	// CONSTRUCTORS
 
-	public Object(double x, double y, double width, double height) {
-		this.x = x;
-		this.y = y;
+	public Object(Location location, double width, double height) {
+		this.location = location;
 		this.width = width;
 		this.height = height;
 
@@ -30,10 +33,12 @@ public abstract class Object {
 
 	// LOCATION RELATED CODE
 
+	private Location location;
+
 	/**
-	 * Used to store the exact location of the object
+	 * Used to store the exact size of the object
 	 */
-	protected double x, y, width, height;
+	protected double width, height;
 
 	/**
 	 * The angle of the object, stored in radians as it is easier for calculations
@@ -41,7 +46,7 @@ public abstract class Object {
 	protected double angle;
 
 	public double getX() {
-		return x;
+		return location.getX();
 
 	}
 
@@ -51,23 +56,27 @@ public abstract class Object {
 	 * @return
 	 */
 	public double getCornerX() {
-		return x - (width / 2);
+		return getX() - (width / 2);
 	}
 
-	public void setX(double x) {
-		this.x = x;
+	private void setX(double x) {
+		Location loc = location.getCopy();
+		loc.setX(x);
+		setLocation(loc);
 	}
 
 	public double getY() {
-		return y;
+		return location.getY();
 	}
 
-	public void setY(double y) {
-		this.y = y;
+	private void setY(double y) {
+		Location loc = location.getCopy();
+		loc.setY(y);
+		setLocation(loc);
 	}
 
 	public double getCornerY() {
-		return y - (width / 2);
+		return getY() - (width / 2);
 	}
 
 	public double getWidth() {
@@ -92,6 +101,49 @@ public abstract class Object {
 
 	public void setAngle(double angle) {
 		this.angle = angle;
+	}
+
+	/**
+	 * Used to relocate the object to the new location using an ObjectMoveEvent
+	 * 
+	 * @see teleport Teleport method for other use cases of movement
+	 * 
+	 * @param location The location to set the object to
+	 */
+	private void setLocation(Location location) {
+
+		ObjectMoveEvent event = new ObjectMoveEvent(this, location);
+
+		EventManager.callEvent(event);
+		// the event is cancelled
+		if (!event.isCancelled()) {
+			return;
+		}
+
+		location = event.getNewLocation();
+
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	/**
+	 * Used when the object is being teleported. This should not be used when the
+	 * object is being moved in a close location, but instead to completely
+	 * reposition the object
+	 * 
+	 * @param location The location that the object is to be teleported to
+	 */
+	public void teleport(Location location) {
+		ObjectTeleportEvent event = new ObjectTeleportEvent(this, location);
+
+		// the event is cancelled
+		if (!event.isCancelled()) {
+			return;
+		}
+
+		location = event.getNewLocation();
 	}
 
 	// END OF LOCATION RELATED CODE

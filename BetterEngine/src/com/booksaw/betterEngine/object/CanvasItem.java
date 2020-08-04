@@ -1,12 +1,13 @@
 package com.booksaw.betterEngine.object;
 
+import com.booksaw.betterEngine.movement.Location;
 import com.booksaw.betterEngine.objectRendering.ObjectRenderer;
 import com.booksaw.betterEngine.objectRendering.TestRender;
 
 public class CanvasItem extends Object {
 
-	public CanvasItem(double x, double y, double width, double height) {
-		super(x, y, width, height);
+	public CanvasItem(Location location, double width, double height) {
+		super(location, width, height);
 	}
 
 	@Override
