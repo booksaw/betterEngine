@@ -210,4 +210,8 @@ public class Vector {
 		return v;
 	}
 
+	@Override
+	public String toString() {
+		return "Vector[" + x + ", " + y + "]";
+	}
 }
