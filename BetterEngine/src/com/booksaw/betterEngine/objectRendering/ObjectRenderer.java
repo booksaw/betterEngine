@@ -30,7 +30,7 @@ public abstract class ObjectRenderer {
 	 */
 	public BufferedImage getRotatedImage(double angle) {
 		// less graphics intensive rendering
-		if (angle == 0) {
+		if (angle == 0 || angle == Math.PI || angle == Math.PI / 2 || angle == 3 * Math.PI / 2) {
 			BufferedImage image = getImage();
 			return ImageUtils.rotateImageByRadians(image, angle);
 		} else {
@@ -95,11 +95,8 @@ public abstract class ObjectRenderer {
 	 * @return the width on screen of the object
 	 */
 	protected int getRenderedWidth(Camera camera) {
-		double w = object.getWidth();
-		double h = object.getHeight();
 
-		return (int) ((w * Math.abs(Math.cos(object.getAngle())) + (h * Math.abs(Math.sin(object.getAngle()))))
-				* camera.getScale());
+		return (int) (getRotatedWidth() * camera.getScale());
 	}
 
 	/**
@@ -109,11 +106,28 @@ public abstract class ObjectRenderer {
 	 * @return the height on screen of the object
 	 */
 	protected int getRenderedHeight(Camera camera) {
+		return (int) (getRotatedHeight() * camera.getScale());
+	}
+
+	/**
+	 * @return the vertical height of the object collision including rotation
+	 */
+	protected double getRotatedHeight() {
 		double w = object.getWidth();
 		double h = object.getHeight();
 
-		return (int) ((w * Math.abs(Math.sin(object.getAngle())) + (h * Math.abs(Math.cos(object.getAngle()))))
-				* camera.getScale());
+		return w * Math.abs(Math.sin(object.getAngle())) + (h * Math.abs(Math.cos(object.getAngle())));
+
+	}
+
+	/**
+	 * @return The horizontal height of the object collision including rotation.
+	 */
+	protected double getRotatedWidth() {
+		double w = object.getWidth();
+		double h = object.getHeight();
+
+		return w * Math.abs(Math.cos(object.getAngle())) + (h * Math.abs(Math.sin(object.getAngle())));
 	}
 
 	/**
@@ -147,8 +161,8 @@ public abstract class ObjectRenderer {
 	 * @return A rough rectangle in which this object will be contained by
 	 */
 	public Rectangle getLooseCollision() {
-		return new Rectangle((int) object.getX(), (int) object.getY(), (int) object.getWidth(),
-				(int) object.getHeight());
+		return new Rectangle((int) object.getCornerX() + 1, (int) object.getCornerY() + 1, (int) getRotatedWidth() + 1,
+				(int) getRotatedHeight() + 5);
 	}
 
 	// END OF LOCATION CONVERSION

@@ -41,9 +41,9 @@ public class Game implements Updatable {
 		g.fillRect(0, 0, 1000, 1000);
 		Rectangle cameraCollision = camera.getLooseCollision();
 		objects.forEach((obj, renderer) -> {
-			if (cameraCollision.intersects(renderer.getLooseCollision())) {
+//			if (cameraCollision.intersects(renderer.getLooseCollision())) {
 				renderer.paint(g, camera);
-			}
+//			}
 		});
 	}
 

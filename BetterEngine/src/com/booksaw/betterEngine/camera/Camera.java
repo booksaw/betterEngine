@@ -45,14 +45,14 @@ public class Camera {
 	 * @return The in game width of the camera
 	 */
 	public double getWidth() {
-		return getCameraWidthPixels() * scale;
+		return getCameraWidthPixels() / scale;
 	}
 
 	/**
 	 * @return The in game height of the camera
 	 */
 	public double getHeight() {
-		return getCameraHeightPixels() * scale;
+		return getCameraHeightPixels() / scale;
 	}
 
 	/**
@@ -73,18 +73,55 @@ public class Camera {
 		return scale;
 	}
 
+	/**
+	 * This method is used to change the scale of the camera. It will assume the
+	 * intended scale type is ScaleType.CENTRE
+	 * 
+	 * @param scale The new scale of the camera
+	 */
 	public void setScale(double scale) {
-		this.scale = scale;
+		setScale(scale, ScaleType.CENTRE);
 	}
 
 	/**
-	 * This method is used to check if an object is on camera, and thus should be rendered
+	 * Used to set the scale of the camera using the specified scale type
+	 * 
+	 * @param scale The new scale of the camera
+	 * @param type  The type of scaling
+	 * @see ScaleType ScaleType
+	 */
+	public void setScale(double scale, ScaleType type) {
+		switch (type) {
+		case CENTRE:
+			// a more complex process
+			// the starting width and height
+			double sw = getWidth();
+			double sh = getHeight();
+
+			// setting the scale
+			this.scale = scale;
+
+			// moving the x and y coord
+			x += (sw - getWidth()) / 2;
+			y += (sh - getHeight()) / 2;
+			break;
+		case CORNER:
+			// a simple alteration of the scale
+			this.scale = scale;
+			break;
+
+		}
+	}
+
+	/**
+	 * This method is used to check if an object is on camera, and thus should be
+	 * rendered
 	 * 
 	 * @return A rectangle which is the collision of this camera within in game
 	 *         units
 	 */
 	public Rectangle getLooseCollision() {
-		return new Rectangle((int) x, (int) y, (int) getWidth(), (int) getHeight());
+		return new Rectangle((int) x + 1, (int) y + 1, (int) getWidth() + 1, (int) getHeight() + 1);
 	}
 
 }

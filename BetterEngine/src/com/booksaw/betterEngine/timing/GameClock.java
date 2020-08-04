@@ -36,7 +36,7 @@ public class GameClock extends Clock {
 
 		int difference = (int) (System.currentTimeMillis() - previousUpdate);
 
-		if (difference > 20) {
+		if (difference > 50) {
 			Logger.warning("The game is running " + difference + " updates behind, skipping to present");
 			difference = 1;
 		}

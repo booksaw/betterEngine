@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 
 import com.booksaw.betterEngine.Game;
+import com.booksaw.betterEngine.camera.ScaleType;
 import com.booksaw.betterEngine.event.EventManager;
 import com.booksaw.betterEngine.event.Listener;
 import com.booksaw.betterEngine.event.events.ExampleEvent;
@@ -15,6 +16,7 @@ import com.booksaw.betterEngine.timing.Updatable;
 public class Main implements Listener, Updatable {
 
 	private static CanvasItem obj;
+	private static Game game;
 	private static JFrame wrapper;
 
 	public static void main(String[] args) {
@@ -25,13 +27,14 @@ public class Main implements Listener, Updatable {
 		EventManager.cancelEvents(main);
 		EventManager.callEvent(new ExampleEvent());
 
-		obj = new CanvasItem(30, 25, 10, 30);
-		obj.setAngle(Math.toRadians(45));
+		obj = new CanvasItem(60, 25, 10, 30);
+		CanvasItem obj2 = new CanvasItem(15, 25, 10, 30);
 
-		Game game = new Game(new Dimension(700, 400));
+		game = new Game(new Dimension(700, 400));
 		game.addObject(obj);
+		game.addObject(obj2);
 		game.getGameClock().addUpdateable(new Main());
-		game.getCamera().setScale(10);
+		game.getCamera().setScale(10, ScaleType.CORNER);
 
 		wrapper = FrameWrapper.buildDefaultFrame(game);
 		wrapper.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,7 +43,10 @@ public class Main implements Listener, Updatable {
 
 	@Override
 	public void update() {
-		obj.setAngle(obj.getAngle() + 0.0005);
+
+		game.getCamera().setScale(game.getCamera().getScale() + 0.001, ScaleType.CENTRE);
+		obj.setAngle(obj.getAngle() + 0.001);
+
 		if (wrapper != null) {
 			wrapper.repaint();
 		}

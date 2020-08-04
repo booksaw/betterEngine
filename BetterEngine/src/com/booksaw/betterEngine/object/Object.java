@@ -42,6 +42,16 @@ public abstract class Object {
 
 	public double getX() {
 		return x;
+
+	}
+
+	/**
+	 * Used to get the x location of the top left corner
+	 * 
+	 * @return
+	 */
+	public double getCornerX() {
+		return x - (width / 2);
 	}
 
 	public void setX(double x) {
@@ -54,6 +64,10 @@ public abstract class Object {
 
 	public void setY(double y) {
 		this.y = y;
+	}
+
+	public double getCornerY() {
+		return y - (width / 2);
 	}
 
 	public double getWidth() {
