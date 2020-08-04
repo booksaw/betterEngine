@@ -45,4 +45,14 @@ public class Location {
 		return "Location(" + x + ", " + y + ")";
 	}
 
+	/**
+	 * Used to find the distance between two locations
+	 * 
+	 * @param location The location to find the distance to
+	 * @return The distance between the locations in in-game units
+	 */
+	public double distance(Location location) {
+		return Math.sqrt((Math.pow(x - location.x, 2) + Math.pow(y - location.y, 2)));
+	}
+
 }
