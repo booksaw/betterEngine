@@ -12,7 +12,6 @@ import com.booksaw.betterEngine.object.Object;
 import com.booksaw.betterEngine.objectRendering.ObjectRenderer;
 import com.booksaw.betterEngine.timing.GameClock;
 import com.booksaw.betterEngine.timing.Updatable;
-import com.booksaw.betterEngine.utils.FileUtils;
 
 /**
  * This class is used to manage an instance of a game
@@ -62,8 +61,8 @@ public class Game implements Updatable {
 		renderManager.getClock().start();
 
 		// loading the keybinds
-		keyboardManager = new KeyboardManager();
-		keyboardManager.load(FileUtils.loadOrCreateFile(FileUtils.RESOURCE_PATH + "keymappings"));
+		keyboardManager = KeyboardManager.loadDefaultKeyMappings();
+
 	}
 
 	public void paint(Graphics g) {
@@ -100,13 +99,16 @@ public class Game implements Updatable {
 		return camera;
 	}
 
-	@Override
-	public void update() {
-		// TODO
-	}
-
 	public RenderManager getRenderManager() {
 		return renderManager;
+	}
+
+	public KeyboardManager getKeyboardManager() {
+		return keyboardManager;
+	}
+
+	@Override
+	public void update() {
 	}
 
 }

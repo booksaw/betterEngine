@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import com.booksaw.betterEngine.Logger;
+import com.booksaw.betterEngine.utils.FileUtils;
 
 /**
  * this is used to track which keys are pressed at any given point, Only a
@@ -21,6 +22,18 @@ import com.booksaw.betterEngine.Logger;
 public class KeyboardManager implements KeyListener {
 
 	/**
+	 * Used to create a new keyboard manager instance with the key mappings stored
+	 * in the default file
+	 * 
+	 * @return The keyboard manager with the default key mappings
+	 */
+	public static KeyboardManager loadDefaultKeyMappings() {
+		KeyboardManager manager = new KeyboardManager();
+		manager.load(FileUtils.loadOrCreateFile(FileUtils.RESOURCE_PATH + "keymappings"));
+		return manager;
+	}
+
+	/**
 	 * To make the active keyboard manager accessiable across the entire program
 	 */
 	public static KeyboardManager keyboardManager;
@@ -28,7 +41,7 @@ public class KeyboardManager implements KeyListener {
 	/**
 	 * Storing the static variable as the active keyboard manager
 	 */
-	public KeyboardManager() {
+	private KeyboardManager() {
 		keyboardManager = this;
 		keyMappings = new HashMap<>();
 	}
