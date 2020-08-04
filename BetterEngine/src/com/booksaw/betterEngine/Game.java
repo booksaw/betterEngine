@@ -7,10 +7,12 @@ import java.util.HashMap;
 
 import com.booksaw.betterEngine.camera.Camera;
 import com.booksaw.betterEngine.gameRendering.RenderManager;
+import com.booksaw.betterEngine.input.KeyboardManager;
 import com.booksaw.betterEngine.object.Object;
 import com.booksaw.betterEngine.objectRendering.ObjectRenderer;
 import com.booksaw.betterEngine.timing.GameClock;
 import com.booksaw.betterEngine.timing.Updatable;
+import com.booksaw.betterEngine.utils.FileUtils;
 
 /**
  * This class is used to manage an instance of a game
@@ -20,14 +22,35 @@ import com.booksaw.betterEngine.timing.Updatable;
  */
 public class Game implements Updatable {
 
-	private final HashMap<Object, ObjectRenderer> objects = new HashMap<>();
+	/**
+	 * The default background color of the game
+	 */
 	private Color backgroundColor;
+
+	/**
+	 * The camera which manages what the user can see
+	 */
 	private Camera camera;
 
+	/**
+	 * A list of all objects contained within this level
+	 */
+	private final HashMap<Object, ObjectRenderer> objects = new HashMap<>();
+
+	/**
+	 * The class which manages all timing and repainting of the game render.
+	 */
 	private final RenderManager renderManager;
 
-	// for timings
+	/**
+	 * Used to run any update events during the game
+	 */
 	private final GameClock gameClock;
+
+	/**
+	 * This instance is used to monitor all keyboard inputs from the user
+	 */
+	private final KeyboardManager keyboardManager;
 
 	public Game(Dimension gameDimensions) {
 		camera = new Camera(gameDimensions);
@@ -37,6 +60,10 @@ public class Game implements Updatable {
 
 		renderManager = new RenderManager(this);
 		renderManager.getClock().start();
+
+		// loading the keybinds
+		keyboardManager = new KeyboardManager();
+		keyboardManager.load(FileUtils.loadOrCreateFile(FileUtils.RESOURCE_PATH + "keymappings"));
 	}
 
 	public void paint(Graphics g) {
