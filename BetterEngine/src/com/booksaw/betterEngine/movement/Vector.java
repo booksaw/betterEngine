@@ -22,11 +22,21 @@ public class Vector {
 	 * 
 	 * @param mod      The modulus (magnitude) of the vector
 	 * @param argument The argument (angle) of the vector in radians
+	 * @return The created vector
 	 */
 	public static Vector createVectorFromModArg(double mod, double argument) {
 		Vector v = new Vector();
 		v.setModArg(mod, argument);
 		return v;
+	}
+
+	/**
+	 * Used to create a vector with an x and y component of 0
+	 * 
+	 * @return The created vector
+	 */
+	public static Vector createBlankVector() {
+		return new Vector();
 	}
 
 	// END OF VECTOR CREATION METHODS

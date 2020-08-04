@@ -1,23 +1,37 @@
 package com.booksaw.betterEngine.object;
 
+import com.booksaw.betterEngine.Game;
 import com.booksaw.betterEngine.event.EventManager;
 import com.booksaw.betterEngine.event.events.ObjectMoveEvent;
 import com.booksaw.betterEngine.event.events.ObjectTeleportEvent;
 import com.booksaw.betterEngine.movement.Location;
+import com.booksaw.betterEngine.movement.Vector;
 import com.booksaw.betterEngine.objectRendering.ObjectRenderer;
+import com.booksaw.betterEngine.timing.Updatable;
 
-public abstract class Object {
+/**
+ * 
+ * This class is for any object which is displayed within the game, no matter
+ * the specifics of the object
+ * 
+ * @author booksaw
+ *
+ */
+public abstract class Object implements Updatable {
 
 	// CONSTRUCTORS
 
-	public Object(Location location, double width, double height) {
+	public Object(Game game, Location location, double width, double height) {
 		this.location = location;
 		this.width = width;
 		this.height = height;
+		velocity = Vector.createBlankVector();
 
 		onCreate();
 
 		renderer = createRenderer();
+
+		game.getGameClock().addUpdateable(this);
 
 	}
 
@@ -44,6 +58,8 @@ public abstract class Object {
 	 * The angle of the object, stored in radians as it is easier for calculations
 	 */
 	protected double angle;
+
+	private Vector velocity;
 
 	public double getX() {
 		return location.getX();
@@ -126,12 +142,22 @@ public abstract class Object {
 
 		EventManager.callEvent(event);
 		// the event is cancelled
-		if (!event.isCancelled()) {
+		if (event.isCancelled()) {
 			return;
 		}
 
-		location = event.getNewLocation();
+		this.location = event.getNewLocation();
 
+	}
+
+	/**
+	 * This method is used to update the velocity and apply the velocity vector
+	 */
+	private void applyVelocityVector() {
+		Location finalLoc = location.getCopy();
+		finalLoc.setX(finalLoc.getX() + velocity.getX());
+		finalLoc.setY(finalLoc.getY() + velocity.getY());
+		setLocation(finalLoc);
 	}
 
 	public Location getLocation() {
@@ -149,11 +175,24 @@ public abstract class Object {
 		ObjectTeleportEvent event = new ObjectTeleportEvent(this, location);
 
 		// the event is cancelled
-		if (!event.isCancelled()) {
+		if (event.isCancelled()) {
 			return;
 		}
 
 		location = event.getNewLocation();
+	}
+
+	public Vector getVelocity() {
+		return velocity;
+	}
+
+	/**
+	 * Used to add the provided vector to this objects current velocity vectort
+	 * 
+	 * @param vector The vector to add to this vector
+	 */
+	public void applyVector(Vector vector) {
+		velocity.addVector(vector);
 	}
 
 	// END OF LOCATION RELATED CODE
@@ -178,5 +217,10 @@ public abstract class Object {
 	protected abstract ObjectRenderer createRenderer();
 
 	// END OF RENDERING CODE
+
+	@Override
+	public void update() {
+		applyVelocityVector();
+	}
 
 }

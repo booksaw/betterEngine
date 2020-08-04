@@ -26,4 +26,24 @@ public class Utils {
 
 	}
 
+	/**
+	 * Used to convert meters per second to meters per tick (for movement code)
+	 * 
+	 * @param mps The meters per second value
+	 * @return The converted value
+	 */
+	public static double mpsToMpt(double mps) {
+		return mps / 100;
+	}
+
+	/**
+	 * Used to convert meters per tick to meters per seconds (for movement code)
+	 * 
+	 * @param mpt The meters per second value
+	 * @return The converted value
+	 */
+	public static double mptToMps(double mpt) {
+		return mpt * 100;
+	}
+
 }
