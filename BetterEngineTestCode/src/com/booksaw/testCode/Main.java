@@ -44,12 +44,9 @@ public class Main implements Listener, Updatable {
 	@Override
 	public void update() {
 
-		game.getCamera().setScale(game.getCamera().getScale() + 0.001, ScaleType.CENTRE);
+//		game.getCamera().setScale(game.getCamera().getScale() + 0.001, ScaleType.CENTRE);
 		obj.setAngle(obj.getAngle() + 0.001);
 
-		if (wrapper != null) {
-			wrapper.repaint();
-		}
 	}
 
 }

@@ -3,10 +3,10 @@ package com.booksaw.betterEngine;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.util.HashMap;
 
 import com.booksaw.betterEngine.camera.Camera;
+import com.booksaw.betterEngine.gameRendering.RenderManager;
 import com.booksaw.betterEngine.object.Object;
 import com.booksaw.betterEngine.objectRendering.ObjectRenderer;
 import com.booksaw.betterEngine.timing.GameClock;
@@ -24,6 +24,8 @@ public class Game implements Updatable {
 	private Color backgroundColor;
 	private Camera camera;
 
+	private final RenderManager renderManager;
+
 	// for timings
 	private final GameClock gameClock;
 
@@ -32,6 +34,9 @@ public class Game implements Updatable {
 		gameClock = new GameClock();
 		gameClock.addUpdateable(this);
 		gameClock.setActive(true);
+
+		renderManager = new RenderManager(this);
+		renderManager.getClock().start();
 	}
 
 	public void paint(Graphics g) {
@@ -39,10 +44,11 @@ public class Game implements Updatable {
 		// filling the background
 		g.setColor(backgroundColor);
 		g.fillRect(0, 0, 1000, 1000);
-		Rectangle cameraCollision = camera.getLooseCollision();
+//		Rectangle cameraCollision = camera.getLooseCollision();
 		objects.forEach((obj, renderer) -> {
+			// TODO fix
 //			if (cameraCollision.intersects(renderer.getLooseCollision())) {
-				renderer.paint(g, camera);
+			renderer.paint(g, camera);
 //			}
 		});
 	}
@@ -70,6 +76,10 @@ public class Game implements Updatable {
 	@Override
 	public void update() {
 		// TODO
+	}
+
+	public RenderManager getRenderManager() {
+		return renderManager;
 	}
 
 }

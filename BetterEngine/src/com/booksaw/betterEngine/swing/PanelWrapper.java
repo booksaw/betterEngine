@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import com.booksaw.betterEngine.Game;
 import com.booksaw.betterEngine.Logger;
+import com.booksaw.betterEngine.gameRendering.GameRenderer;
 
 /**
  * This class is used to wrap a game instance into a JPanel
@@ -13,7 +14,7 @@ import com.booksaw.betterEngine.Logger;
  * @author booksaw
  *
  */
-public class PanelWrapper extends JPanel {
+public class PanelWrapper extends JPanel implements GameRenderer {
 
 	private static final long serialVersionUID = 296756653172992163L;
 
@@ -22,12 +23,12 @@ public class PanelWrapper extends JPanel {
 	public PanelWrapper(Game game) {
 		Logger.info("Creating PanelWrapper instance");
 		this.game = game;
+		game.getRenderManager().addInstance(this);
 	}
 
 	public Game getGame() {
 		return game;
 	}
-
 
 	@Override
 	public void paint(Graphics g) {
