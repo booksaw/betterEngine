@@ -40,7 +40,7 @@ public class Vector {
 	 * @param v2 the second vector
 	 * @return The dot product of the two vectors
 	 */
-	public double dotProduct(Vector v1, Vector v2) {
+	public static double dotProduct(Vector v1, Vector v2) {
 		return (v1.x * v2.x) + (v1.y * v2.y);
 	}
 
@@ -51,8 +51,12 @@ public class Vector {
 	 * @param v2 The second vector
 	 * @return The angle between the two vectors in radians
 	 */
-	public double getAngle(Vector v1, Vector v2) {
+	public static double getAngle(Vector v1, Vector v2) {
 		return Math.acos(dotProduct(v1, v2) / (v1.getModulus() * v2.getModulus()));
+	}
+
+	public static double crossProduct(Vector v1, Vector v2) {
+		return (v1.x * v2.y) + (v1.y * v2.x);
 	}
 
 	// END OF STATIC VECTOR MANIPULATION METHODS
@@ -149,6 +153,61 @@ public class Vector {
 		y /= scaler;
 	}
 
+	/**
+	 * Used to multiply this vector with another vector
+	 * 
+	 * @param vector the other vector
+	 */
+	public void multiplyVector(Vector vector) {
+		x *= vector.x;
+		y *= vector.y;
+	}
+
+	/**
+	 * Used to divide this vector by another vector
+	 * 
+	 * @param vector the other vector
+	 */
+	public void divideVector(Vector vector) {
+		x /= vector.x;
+		y /= vector.y;
+	}
+
+	/**
+	 * Used to turn this vector into a unit vector of the same direction
+	 */
+	public void normalize() {
+		divideScaler(getModulus());
+	}
+
+	/**
+	 * Used to invert the vector so it is the exact opposite direction
+	 */
+	public void invert() {
+		x = -x;
+		y = -y;
+	}
+
 	// END OF VECTOR MANIPULATION
+
+	/**
+	 * Used to compare two vectors
+	 * 
+	 * @param vector The vector to compare this vector to
+	 * @return True if they are the same, False if they are different
+	 */
+	public boolean equals(Vector vector) {
+		return (x == vector.x) && (y == vector.y);
+	}
+
+	/**
+	 * @return A new vector with the exact details as this one
+	 */
+	public Vector getCopy() {
+		Vector v = new Vector();
+		v.x = x;
+		v.y = y;
+		return v;
+	}
 
 }

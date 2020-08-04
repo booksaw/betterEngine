@@ -51,14 +51,18 @@ public abstract class Object {
 	}
 
 	/**
-	 * Used to get the x location of the top left corner
-	 * 
-	 * @return
+	 * @return the x location of the top left corner
 	 */
 	public double getCornerX() {
 		return getX() - (width / 2);
 	}
 
+	/**
+	 * Used only when applying vectors to the object. This will trigger an
+	 * ObjectMoveEvent
+	 * 
+	 * @param x The new x location of the object
+	 */
 	private void setX(double x) {
 		Location loc = location.getCopy();
 		loc.setX(x);
@@ -69,6 +73,12 @@ public abstract class Object {
 		return location.getY();
 	}
 
+	/**
+	 * Used only when applying vectors to the object. This will trigger an
+	 * ObjectMoveEvent
+	 * 
+	 * @param y The new y location of the object
+	 */
 	private void setY(double y) {
 		Location loc = location.getCopy();
 		loc.setY(y);
