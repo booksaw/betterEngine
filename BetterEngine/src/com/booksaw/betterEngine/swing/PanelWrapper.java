@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import com.booksaw.betterEngine.Game;
 import com.booksaw.betterEngine.Logger;
 import com.booksaw.betterEngine.gameRendering.GameRenderer;
+import com.booksaw.betterEngine.input.KeyboardManager;
 
 /**
  * This class is used to wrap a game instance into a JPanel
@@ -24,6 +25,7 @@ public class PanelWrapper extends JPanel implements GameRenderer {
 		Logger.info("Creating PanelWrapper instance");
 		this.game = game;
 		game.getRenderManager().addInstance(this);
+		addKeyListener(KeyboardManager.keyboardManager);
 	}
 
 	public Game getGame() {

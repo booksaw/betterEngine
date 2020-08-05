@@ -27,22 +27,21 @@ public class KeyboardManager implements KeyListener {
 	 * 
 	 * @return The keyboard manager with the default key mappings
 	 */
-	public static KeyboardManager loadDefaultKeyMappings() {
+	private static KeyboardManager loadDefaultKeyMappings() {
 		KeyboardManager manager = new KeyboardManager();
 		manager.load(FileUtils.loadOrCreateFile(FileUtils.RESOURCE_PATH + "keymappings"));
 		return manager;
 	}
 
 	/**
-	 * To make the active keyboard manager accessiable across the entire program
+	 * To make the active keyboard manager accessible across the entire program
 	 */
-	public static KeyboardManager keyboardManager;
+	public final static KeyboardManager keyboardManager = loadDefaultKeyMappings();
 
 	/**
 	 * Storing the static variable as the active keyboard manager
 	 */
 	private KeyboardManager() {
-		keyboardManager = this;
 		keyMappings = new HashMap<>();
 	}
 

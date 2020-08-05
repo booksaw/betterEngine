@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 import com.booksaw.betterEngine.Game;
 import com.booksaw.betterEngine.Logger;
+import com.booksaw.betterEngine.input.KeyboardManager;
 
 /**
  * This class is used to wrap the game within a JFrame (panel wrapper is still
@@ -48,6 +49,7 @@ public class FrameWrapper extends JFrame {
 
 		panelWrapper = new PanelWrapper(game);
 		setContentPane(panelWrapper);
+		addKeyListener(KeyboardManager.keyboardManager);
 	}
 
 	public Game getGame() {

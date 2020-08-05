@@ -12,14 +12,8 @@ import com.booksaw.betterEngine.object.Sprite;
 public abstract class Movement {
 
 	/**
-	 * The sprite that this movement instance is for
+	 * Used to update the movement details for that sprite
 	 */
-	protected final Sprite sprite;
-
-	public Movement(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	public abstract void updateMovement();
+	public abstract void updateMovement(Sprite sprite);
 
 }

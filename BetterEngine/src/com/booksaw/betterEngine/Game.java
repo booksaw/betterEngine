@@ -7,7 +7,6 @@ import java.util.HashMap;
 
 import com.booksaw.betterEngine.camera.Camera;
 import com.booksaw.betterEngine.gameRendering.RenderManager;
-import com.booksaw.betterEngine.input.KeyboardManager;
 import com.booksaw.betterEngine.object.Object;
 import com.booksaw.betterEngine.objectRendering.ObjectRenderer;
 import com.booksaw.betterEngine.timing.GameClock;
@@ -46,11 +45,6 @@ public class Game implements Updatable {
 	 */
 	private final GameClock gameClock;
 
-	/**
-	 * This instance is used to monitor all keyboard inputs from the user
-	 */
-	private final KeyboardManager keyboardManager;
-
 	public Game(Dimension gameDimensions) {
 		camera = new Camera(gameDimensions);
 		gameClock = new GameClock();
@@ -61,7 +55,6 @@ public class Game implements Updatable {
 		renderManager.getClock().start();
 
 		// loading the keybinds
-		keyboardManager = KeyboardManager.loadDefaultKeyMappings();
 
 	}
 
@@ -101,10 +94,6 @@ public class Game implements Updatable {
 
 	public RenderManager getRenderManager() {
 		return renderManager;
-	}
-
-	public KeyboardManager getKeyboardManager() {
-		return keyboardManager;
 	}
 
 	@Override

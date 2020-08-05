@@ -86,12 +86,30 @@ public class Vector {
 		this.x = x;
 	}
 
+	/**
+	 * Used to add an additional x component to this vector
+	 * 
+	 * @param x The x component to add
+	 */
+	public void addX(double x) {
+		this.x += x;
+	}
+
 	public double getY() {
 		return y;
 	}
 
 	public void setY(double y) {
 		this.y = y;
+	}
+
+	/**
+	 * Used to add an additional y component to this vector
+	 * 
+	 * @param y The y component to add
+	 */
+	public void addY(double y) {
+		this.y += y;
 	}
 
 	/**

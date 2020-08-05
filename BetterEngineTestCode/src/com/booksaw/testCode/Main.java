@@ -10,8 +10,9 @@ import com.booksaw.betterEngine.event.EventManager;
 import com.booksaw.betterEngine.event.Listener;
 import com.booksaw.betterEngine.event.events.ExampleEvent;
 import com.booksaw.betterEngine.movement.Location;
-import com.booksaw.betterEngine.movement.Vector;
+import com.booksaw.betterEngine.movement.TopDownMovement;
 import com.booksaw.betterEngine.object.CanvasItem;
+import com.booksaw.betterEngine.object.Sprite;
 import com.booksaw.betterEngine.swing.FrameWrapper;
 import com.booksaw.betterEngine.timing.Updatable;
 
@@ -33,8 +34,9 @@ public class Main implements Listener, Updatable {
 
 		// TODO this way of providing the game is not very good, this should be improved
 		obj = new CanvasItem(game, new Location(60, 25), 10, 30);
-		CanvasItem obj2 = new CanvasItem(game, new Location(15, 25), 10, 30);
-		obj2.applyVector(Vector.createVectorFromXY(0.1, 0));
+		Sprite obj2 = new Sprite(game, new Location(15, 25), 10, 30);
+		obj2.addMovement(new TopDownMovement());
+
 		game.addObject(obj);
 		game.addObject(obj2);
 		game.getGameClock().addUpdateable(new Main());
