@@ -69,6 +69,72 @@ public class Vector {
 		return (v1.x * v2.y) + (v1.y * v2.x);
 	}
 
+	/**
+	 * Used to get the normal vector between two vectors
+	 * 
+	 * @param v1 The first vector
+	 * @param v2 The second vector
+	 * @return The result of the vectors
+	 */
+	public static Vector getNormal(Vector v1, Vector v2) {
+		return Vector.createVectorFromXY(v2.getX() - v1.getX(), v2.getY() - v1.getY());
+	}
+
+	/**
+	 * Used to add two vectors together and return the value in a new vector
+	 * 
+	 * @param v1 The first vector
+	 * @param v2 The second vector
+	 * @return The result
+	 */
+	public static Vector addVector(Vector v1, Vector v2) {
+		Vector result = v1.getCopy();
+		result.addVector(v2);
+		return result;
+	}
+
+	/**
+	 * Used to subtract a vector from another vector and return their value in a new
+	 * vector
+	 * <p>
+	 * v1-v2 = result
+	 * </p>
+	 * 
+	 * @param v1 The first vector
+	 * @param v2 The second vector
+	 * @return The result
+	 */
+	public static Vector substractVector(Vector v1, Vector v2) {
+		Vector result = v1.getCopy();
+		result.subtractVector(v2);
+		return result;
+	}
+
+	/**
+	 * Used to multiply the provided vector and return the result in a new vector
+	 * 
+	 * @param v1     The vector
+	 * @param scaler The scaler
+	 * @return The result
+	 */
+	public static Vector multiplyScaler(Vector v1, double scaler) {
+		Vector result = v1.getCopy();
+		result.multiplyScaler(scaler);
+		return result;
+	}
+
+	/**
+	 * used to get a new vector which is the reciprocal of the provided vector
+	 * 
+	 * @param v The vector to find the reciprocal of
+	 * @return The resulting vector
+	 */
+	public static Vector reciprocal(Vector v) {
+		Vector result = v.getCopy();
+		v.reciprocal();
+		return result;
+	}
+
 	// END OF STATIC VECTOR MANIPULATION METHODS
 
 	private double x = 0;
@@ -241,5 +307,13 @@ public class Vector {
 	@Override
 	public String toString() {
 		return "Vector[" + x + ", " + y + "]";
+	}
+
+	/**
+	 * Used to reciprocal the vector (1 / vector)
+	 */
+	public void reciprocal() {
+		x = 1 / x;
+		y = 1 / y;
 	}
 }

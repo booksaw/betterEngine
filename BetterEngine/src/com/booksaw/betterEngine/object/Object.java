@@ -7,6 +7,7 @@ import com.booksaw.betterEngine.event.events.ObjectTeleportEvent;
 import com.booksaw.betterEngine.movement.Location;
 import com.booksaw.betterEngine.movement.Vector;
 import com.booksaw.betterEngine.objectRendering.ObjectRenderer;
+import com.booksaw.betterEngine.physics.Collision;
 import com.booksaw.betterEngine.timing.Updatable;
 
 /**
@@ -18,6 +19,8 @@ import com.booksaw.betterEngine.timing.Updatable;
  *
  */
 public abstract class Object implements Updatable {
+
+	private final Collision collision;
 
 	// CONSTRUCTORS
 
@@ -32,6 +35,7 @@ public abstract class Object implements Updatable {
 		renderer = createRenderer();
 
 		game.getGameClock().addUpdateable(this);
+		collision = new Collision(this);
 
 	}
 
@@ -102,7 +106,7 @@ public abstract class Object implements Updatable {
 	}
 
 	public double getCornerY() {
-		return getY() - (width / 2);
+		return getY() - (height / 2);
 	}
 
 	public double getWidth() {
@@ -119,6 +123,29 @@ public abstract class Object implements Updatable {
 
 	public void setHeight(double height) {
 		this.height = height;
+	}
+
+	/**
+	 * @return the vertical axis aligned height of the object collision including
+	 *         rotation
+	 */
+	public double getRotatedHeight() {
+		double w = getWidth();
+		double h = getHeight();
+
+		return w * Math.abs(Math.sin(getAngle())) + (h * Math.abs(Math.cos(getAngle())));
+
+	}
+
+	/**
+	 * @return The horizontal axis aligned height of the object collision including
+	 *         rotation.
+	 */
+	public double getRotatedWidth() {
+		double w = getWidth();
+		double h = getHeight();
+
+		return w * Math.abs(Math.cos(getAngle())) + (h * Math.abs(Math.sin(getAngle())));
 	}
 
 	public double getAngle() {
@@ -217,6 +244,54 @@ public abstract class Object implements Updatable {
 	protected abstract ObjectRenderer createRenderer();
 
 	// END OF RENDERING CODE
+
+	// PHYSICS DETAILS
+
+	private double restitution = 0;
+	private double mass;
+
+	/**
+	 * Used to get the collision of this object
+	 * 
+	 * @return
+	 */
+	public Collision getCollision() {
+		return collision;
+	}
+
+	// TODO this is just for testing
+	public BoundingBox getBoundingBox() {
+		return new BoundingBox(getCornerX(), getCornerY(), getRotatedWidth(), getRotatedHeight());
+	}
+
+	/**
+	 * @return the Coefficient of restitution of this object
+	 */
+	public double getRestitution() {
+		return restitution;
+	}
+
+	public void setRestitution(double restitution) {
+		this.restitution = restitution;
+	}
+
+	public double getMass() {
+		return mass;
+	}
+
+	public double getInverseMass() {
+		if (mass == 0) {
+			return 0;
+		} else {
+			return 1 / mass;
+		}
+	}
+
+	public void setMass(double mass) {
+		this.mass = mass;
+	}
+
+	// END OF PHYSICS DETAILS
 
 	@Override
 	public void update() {

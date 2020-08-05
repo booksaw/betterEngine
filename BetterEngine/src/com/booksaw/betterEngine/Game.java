@@ -3,7 +3,9 @@ package com.booksaw.betterEngine;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.booksaw.betterEngine.camera.Camera;
 import com.booksaw.betterEngine.gameRendering.RenderManager;
@@ -98,6 +100,24 @@ public class Game implements Updatable {
 
 	@Override
 	public void update() {
+		checkCollisions();
+	}
+
+	public void checkCollisions() {
+		List<Object> checked = new ArrayList<>();
+		for (Object obj : objects.keySet()) {
+			checked.add(obj);
+
+			for (Object i : objects.keySet()) {
+				if (checked.contains(i)) {
+					continue;
+				}
+
+				obj.getBoundingBox().isColliding(i.getBoundingBox());
+
+			}
+
+		}
 	}
 
 }

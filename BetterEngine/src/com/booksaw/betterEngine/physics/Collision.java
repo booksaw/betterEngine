@@ -1,0 +1,58 @@
+package com.booksaw.betterEngine.physics;
+
+import com.booksaw.betterEngine.movement.Vector;
+import com.booksaw.betterEngine.object.Object;
+
+public class Collision {
+
+	/**
+	 * Used to resolve a collision between two objects
+	 * 
+	 * @param a The first object
+	 * @param b The second object
+	 */
+	public static void resolveCollision(Object a, Object b) {
+		Vector normal = Vector.getNormal(a.getVelocity(), b.getVelocity());
+
+		// Calculate relative velocity
+		Vector rv = b.getVelocity().getCopy();
+		rv.subtractVector(a.getVelocity());
+
+		// Calculate relative velocity in terms of the normal direction
+		double velAlongNormal = Vector.dotProduct(rv, normal);
+
+		// Do not resolve if velocities are separating
+		if (velAlongNormal > 0) {
+			return;
+		}
+
+		// Calculate restitution
+		double e = Math.min(a.getRestitution(), b.getRestitution());
+
+		// Calculate impulse scalar
+		double j = -(1 + e) * velAlongNormal;
+		j /= a.getInverseMass() + b.getInverseMass();
+
+		// Apply impulse
+		Vector impulse = Vector.multiplyScaler(normal, j);
+		Vector aChange = Vector.multiplyScaler(impulse, a.getInverseMass());
+		aChange.invert();
+
+		a.applyVector(aChange);
+		b.applyVector(Vector.multiplyScaler(impulse, b.getInverseMass()));
+	}
+
+	// TODO
+//	public static void PositionalCorrection(Object A, Object B) {
+//	  final double percent = 0.2; // usually 20% to 80%
+//	  
+//	  Vector correction = penetrationDepth / (A.inv_mass + B.inv_mass)) * percent * n
+//	  A.position -= A.inv_mass * correction
+//	  B.position += B.inv_mass * correction
+//	}
+
+	public Collision(Object object) {
+
+	}
+
+}
