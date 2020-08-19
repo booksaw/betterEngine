@@ -33,7 +33,7 @@ public class Main implements Listener, Updatable {
 		game = new Game(new Dimension(700, 400));
 
 		// TODO this way of providing the game is not very good, this should be improved
-		obj = new CanvasItem(game, new Location(15, 15), 10, 10);
+		obj = new CanvasItem(game, new Location(50, 15), 10, 10);
 		Sprite obj2 = new Sprite(game, new Location(15, 25.1), 10, 30);
 		obj2.addMovement(new TopDownMovement());
 

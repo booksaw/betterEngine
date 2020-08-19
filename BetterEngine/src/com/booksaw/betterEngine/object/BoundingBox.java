@@ -47,7 +47,6 @@ public class BoundingBox {
 				|| getMinPoint().getY() > rect.getMaxPoint().getY()) {
 			return false;
 		}
-		System.out.println("collding");
 		return true;
 	}
 

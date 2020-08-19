@@ -11,6 +11,7 @@ import com.booksaw.betterEngine.camera.Camera;
 import com.booksaw.betterEngine.gameRendering.RenderManager;
 import com.booksaw.betterEngine.object.Object;
 import com.booksaw.betterEngine.objectRendering.ObjectRenderer;
+import com.booksaw.betterEngine.physics.Collision;
 import com.booksaw.betterEngine.timing.GameClock;
 import com.booksaw.betterEngine.timing.Updatable;
 
@@ -113,7 +114,9 @@ public class Game implements Updatable {
 					continue;
 				}
 
-				obj.getBoundingBox().isColliding(i.getBoundingBox());
+				if (obj.getBoundingBox().isColliding(i.getBoundingBox())) {
+					Collision.resolveCollision(obj, i);
+				}
 
 			}
 

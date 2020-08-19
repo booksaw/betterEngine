@@ -13,7 +13,7 @@ public class Collision {
 	 */
 	public static void resolveCollision(Object a, Object b) {
 		Vector normal = Vector.getNormal(a.getVelocity(), b.getVelocity());
-
+		System.out.println("resolving");
 		// Calculate relative velocity
 		Vector rv = b.getVelocity().getCopy();
 		rv.subtractVector(a.getVelocity());
@@ -37,7 +37,7 @@ public class Collision {
 		Vector impulse = Vector.multiplyScaler(normal, j);
 		Vector aChange = Vector.multiplyScaler(impulse, a.getInverseMass());
 		aChange.invert();
-
+		System.out.println(aChange);
 		a.applyVector(aChange);
 		b.applyVector(Vector.multiplyScaler(impulse, b.getInverseMass()));
 	}
