@@ -1,4 +1,4 @@
-package com.booksaw.betterEngine.object;
+package com.booksaw.betterEngine.physics.shape;
 
 import com.booksaw.betterEngine.movement.Location;
 
