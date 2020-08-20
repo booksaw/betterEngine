@@ -56,7 +56,7 @@ public class Edge extends Shape {
 	/**
 	 * @return The Y intercept if this edge was extended to a linear equation
 	 */
-	public double getXIntercept() {
+	public double getYIntercept() {
 		return a.getY() - (getGradient() * a.getX());
 	}
 
@@ -70,4 +70,28 @@ public class Edge extends Shape {
 		return verticies;
 	}
 
+	public boolean isColliding(Edge edge) {
+		double m1 = getGradient();
+		double m2 = edge.getGradient();
+
+		// parallel
+		if (m1 == m2) {
+			// if their y intercept is the same
+			if (getYIntercept() == edge.getYIntercept()) {
+				return true;
+			}
+			return false;
+		}
+
+		// checking if they share an x coord
+		double x = (getYIntercept() - edge.getYIntercept()) / (edge.getGradient() - getGradient());
+		// this will always produce a response as 2 non parallel lines will always
+		// collide somewhere...
+		// checking if the collision is within the actual collision part of the line
+		BoundingBox intersection = BoundingBox.getIntersectingBox(getBoundingBox(), edge.getBoundingBox());
+		if (intersection.getX() >= x && intersection.getWidth() + intersection.getX() <= x) {
+			return true;
+		}
+		return false;
+	}
 }

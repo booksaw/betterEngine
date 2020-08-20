@@ -183,8 +183,25 @@ public abstract class Object implements Updatable {
 	 */
 	private void applyVelocityVector() {
 		Location finalLoc = location.getCopy();
+
+		// applying the hard limit to the velocity of width/2 - (width *0.0001)
+		// this is done so in a single update, an object cannot fully clip into another
+		// object
+		double xLim = width / 2 - (width * 0.0001);
+
+		if (xLim < velocity.getY()) {
+			velocity.setY(xLim);
+		}
+
+		double yLim = height / 2 - (height * 0.0001);
+
+		if (yLim < velocity.getY()) {
+			velocity.setY(yLim);
+		}
+
 		finalLoc.setX(finalLoc.getX() + velocity.getX());
 		finalLoc.setY(finalLoc.getY() + velocity.getY());
+
 		setLocation(finalLoc);
 	}
 

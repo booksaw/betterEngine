@@ -5,6 +5,10 @@ import java.util.List;
 
 import com.booksaw.betterEngine.movement.Location;
 
+/**
+ * @author nfgg2
+ *
+ */
 public class Rectangle extends Shape {
 
 	public double x, y, width, height;
@@ -88,4 +92,23 @@ public class Rectangle extends Shape {
 
 		return verticies;
 	}
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public double getWidth() {
+		return width;
+	}
+
+	public double getHeight() {
+		return height;
+	}
+	
+	
+
 }
