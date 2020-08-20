@@ -2,6 +2,8 @@ package com.booksaw.betterEngine.physics;
 
 import com.booksaw.betterEngine.movement.Vector;
 import com.booksaw.betterEngine.object.Object;
+import com.booksaw.betterEngine.physics.shape.Circle;
+import com.booksaw.betterEngine.physics.shape.Edge;
 
 public class Collision {
 
@@ -40,6 +42,25 @@ public class Collision {
 		System.out.println(aChange);
 		a.applyVector(aChange);
 		b.applyVector(Vector.multiplyScaler(impulse, b.getInverseMass()));
+	}
+
+	/**
+	 * Used to check if a circle is colliding with an edge
+	 * 
+	 * @param circle The circle to check
+	 * @param edge   The edge to check
+	 * @return If they are colliding
+	 */
+	public boolean isColliding(Circle circle, Edge edge) {
+
+		double distance = Math.abs((-edge.getGradient() * circle.getLocation().getX()) + circle.getLocation().getY()
+				- edge.getYIntercept()) / Math.sqrt(Math.pow(edge.getGradient(), 2) + 1);
+
+		if (distance <= circle.getRadius()) {
+			return true;
+		}
+
+		return false;
 	}
 
 	// TODO
