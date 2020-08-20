@@ -8,6 +8,7 @@ import com.booksaw.betterEngine.movement.Location;
 import com.booksaw.betterEngine.movement.Vector;
 import com.booksaw.betterEngine.objectRendering.ObjectRenderer;
 import com.booksaw.betterEngine.physics.Collision;
+import com.booksaw.betterEngine.physics.shape.BoundingBox;
 import com.booksaw.betterEngine.timing.Updatable;
 
 /**
@@ -77,33 +78,33 @@ public abstract class Object implements Updatable {
 		return getX() - (width / 2);
 	}
 
-	/**
-	 * Used only when applying vectors to the object. This will trigger an
-	 * ObjectMoveEvent
-	 * 
-	 * @param x The new x location of the object
-	 */
-	private void setX(double x) {
-		Location loc = location.getCopy();
-		loc.setX(x);
-		setLocation(loc);
-	}
+//	/**
+//	 * Used only when applying vectors to the object. This will trigger an
+//	 * ObjectMoveEvent
+//	 * 
+//	 * @param x The new x location of the object
+//	 */
+//	private void setX(double x) {
+//		Location loc = location.getCopy();
+//		loc.setX(x);
+//		setLocation(loc);
+//	}
 
 	public double getY() {
 		return location.getY();
 	}
 
-	/**
-	 * Used only when applying vectors to the object. This will trigger an
-	 * ObjectMoveEvent
-	 * 
-	 * @param y The new y location of the object
-	 */
-	private void setY(double y) {
-		Location loc = location.getCopy();
-		loc.setY(y);
-		setLocation(loc);
-	}
+//	/**
+//	 * Used only when applying vectors to the object. This will trigger an
+//	 * ObjectMoveEvent
+//	 * 
+//	 * @param y The new y location of the object
+//	 */
+//	private void setY(double y) {
+//		Location loc = location.getCopy();
+//		loc.setY(y);
+//		setLocation(loc);
+//	}
 
 	public double getCornerY() {
 		return getY() - (height / 2);
