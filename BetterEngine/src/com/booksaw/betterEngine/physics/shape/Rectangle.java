@@ -1,5 +1,8 @@
 package com.booksaw.betterEngine.physics.shape;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.booksaw.betterEngine.movement.Location;
 
 public class Rectangle extends Shape {
@@ -72,5 +75,17 @@ public class Rectangle extends Shape {
 	@Override
 	public BoundingBox getBoundingBox() {
 		return new BoundingBox(x, y, width, height);
+	}
+
+	@Override
+	public List<Location> getVerticies() {
+		List<Location> verticies = new ArrayList<>();
+
+		verticies.add(new Location(x, y));
+		verticies.add(new Location(x + width, y));
+		verticies.add(new Location(x, y + height));
+		verticies.add(new Location(x + width, y + height));
+
+		return verticies;
 	}
 }

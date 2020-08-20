@@ -1,5 +1,8 @@
 package com.booksaw.betterEngine.physics.shape;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.booksaw.betterEngine.movement.Location;
 
 /**
@@ -55,6 +58,16 @@ public class Edge extends Shape {
 	 */
 	public double getXIntercept() {
 		return a.getY() - (getGradient() * a.getX());
+	}
+
+	@Override
+	public List<Location> getVerticies() {
+		List<Location> verticies = new ArrayList<>();
+
+		verticies.add(a);
+		verticies.add(b);
+
+		return verticies;
 	}
 
 }
