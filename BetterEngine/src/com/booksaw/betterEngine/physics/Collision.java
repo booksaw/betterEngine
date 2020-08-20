@@ -46,13 +46,17 @@ public class Collision {
 
 	/**
 	 * Used to check if a circle is colliding with an edge
+	 * <p>
+	 * Only run if their bounding boxes collide else this will provide false
+	 * positives
+	 * </p>
 	 * 
 	 * @param circle The circle to check
 	 * @param edge   The edge to check
 	 * @return If they are colliding
 	 */
 	public boolean isColliding(Circle circle, Edge edge) {
-
+		// finding the shortest distance between the point and the line
 		double distance = Math.abs((-edge.getGradient() * circle.getLocation().getX()) + circle.getLocation().getY()
 				- edge.getYIntercept()) / Math.sqrt(Math.pow(edge.getGradient(), 2) + 1);
 
