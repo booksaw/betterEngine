@@ -21,7 +21,7 @@ public class Collision {
 		rv.subtractVector(a.getVelocity());
 
 		// Calculate relative velocity in terms of the normal direction
-		double velAlongNormal = Vector.dotProduct(rv, normal);
+//		double velAlongNormal = Vector.dotProduct(rv, normal);
 
 		// Do not resolve if velocities are separating
 //		if (velAlongNormal > 0) {
@@ -32,7 +32,6 @@ public class Collision {
 
 		// Calculate restitution
 		double e = Math.min(a.getRestitution(), b.getRestitution());
-
 		// Calculate impulse scalar
 		double j = -(1 + e) /* * velAlongNormal */;
 

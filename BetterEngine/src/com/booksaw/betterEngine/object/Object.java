@@ -22,13 +22,14 @@ import com.booksaw.betterEngine.timing.Updatable;
 public abstract class Object implements Updatable {
 
 	private final Collision collision;
-
+	private final Game game;
 	// CONSTRUCTORS
 
 	public Object(Game game, Location location, double width, double height) {
 		this.location = location;
 		this.width = width;
 		this.height = height;
+		this.game = game;
 		velocity = Vector.createBlankVector();
 
 		onCreate();
@@ -201,8 +202,13 @@ public abstract class Object implements Updatable {
 
 		finalLoc.setX(finalLoc.getX() + velocity.getX());
 		finalLoc.setY(finalLoc.getY() + velocity.getY());
-
+		Location current = location;
 		setLocation(finalLoc);
+
+		if (game.checkCollisions(this)) {
+			setLocation(current);
+		}
+
 	}
 
 	public Location getLocation() {
@@ -314,6 +320,7 @@ public abstract class Object implements Updatable {
 	@Override
 	public void update() {
 		applyVelocityVector();
+		System.out.println(getBoundingBox() + " " + velocity);
 	}
 
 }

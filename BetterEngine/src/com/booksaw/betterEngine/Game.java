@@ -3,9 +3,7 @@ package com.booksaw.betterEngine;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import com.booksaw.betterEngine.camera.Camera;
 import com.booksaw.betterEngine.gameRendering.RenderManager;
@@ -104,23 +102,41 @@ public class Game implements Updatable {
 		checkCollisions();
 	}
 
-	public void checkCollisions() {
-		List<Object> checked = new ArrayList<>();
-		for (Object obj : objects.keySet()) {
-			checked.add(obj);
+	public boolean checkCollisions(Object object) {
+		boolean toReturn = false;
+		for (Object i : objects.keySet()) {
 
-			for (Object i : objects.keySet()) {
-				if (checked.contains(i)) {
-					continue;
-				}
+			if (i == object) {
+				continue;
+			}
 
-				if (obj.getBoundingBox().isColliding(i.getBoundingBox())) {
-					Collision.resolveCollision(obj, i);
-				}
-
+			if (object.getBoundingBox().isColliding(i.getBoundingBox())) {
+				Collision.resolveCollision(object, i);
+				toReturn = true;
 			}
 
 		}
+		System.out.println("toReturn = " + toReturn);
+		return toReturn;
+	}
+
+	public void checkCollisions() {
+//		List<Object> checked = new ArrayList<>();
+//		for (Object obj : objects.keySet()) {
+//			checked.add(obj);
+//
+//			for (Object i : objects.keySet()) {
+//				if (checked.contains(i)) {
+//					continue;
+//				}
+//
+//				if (obj.getBoundingBox().isColliding(i.getBoundingBox())) {
+//					Collision.resolveCollision(obj, i);
+//				}
+//
+//			}
+//
+//		}
 	}
 
 }
