@@ -27,9 +27,13 @@ public class Main {
 		}
 
 		instance = this;
+
+		// creating the editor frame with default settings
 		editorFrame = new JFrame(NAME);
 		editorFrame.setSize(900, 600);
 		editorFrame.setLocationRelativeTo(null);
+
+		// showing the editor frame
 		editorFrame.setVisible(true);
 	}
 
