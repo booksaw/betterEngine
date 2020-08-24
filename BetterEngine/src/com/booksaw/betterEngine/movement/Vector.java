@@ -135,6 +135,17 @@ public class Vector {
 		return result;
 	}
 
+	/**
+	 * Used to get a vector with the length of 1 in the direction of the provided
+	 * vector
+	 * 
+	 * @param v The non unit vector
+	 * @return The unit version of that vector
+	 */
+	public static Vector unitVector(Vector v) {
+		return Vector.createVectorFromModArg(1, v.getArgument());
+	}
+
 	// END OF STATIC VECTOR MANIPULATION METHODS
 
 	private double x = 0;

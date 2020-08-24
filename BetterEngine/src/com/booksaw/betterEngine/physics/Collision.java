@@ -14,26 +14,22 @@ public class Collision {
 	 * @param b The second object
 	 */
 	public static void resolveCollision(Object a, Object b) {
-		Vector normal = Vector.getNormal(a.getVelocity(), b.getVelocity());
-		System.out.println("resolving");
+		Vector normal = Vector.unitVector(Vector.getNormal(a.getVelocity(), b.getVelocity()));
+
 		// Calculate relative velocity
 		Vector rv = b.getVelocity().getCopy();
 		rv.subtractVector(a.getVelocity());
-
 		// Calculate relative velocity in terms of the normal direction
-//		double velAlongNormal = Vector.dotProduct(rv, normal);
-
+		double velAlongNormal = Vector.dotProduct(rv, normal);
 		// Do not resolve if velocities are separating
-//		if (velAlongNormal > 0) {
-//			return;
-//		}
+		if (velAlongNormal == 0) {
+			return;
+		}
 
-		// TODO fix velAlongNormal
-
-		// Calculate restitution
+		// Calculate resitution
 		double e = Math.min(a.getRestitution(), b.getRestitution());
 		// Calculate impulse scalar
-		double j = -(1 + e) /* * velAlongNormal */;
+		double j = -(1 + e) * velAlongNormal;
 
 		j /= a.getInverseMass() + b.getInverseMass();
 
@@ -41,9 +37,7 @@ public class Collision {
 		Vector impulse = Vector.multiplyScaler(normal, j);
 		Vector aChange = Vector.multiplyScaler(impulse, a.getInverseMass());
 		aChange.invert();
-		System.out.println("applying a = " + aChange);
 		a.applyVector(aChange);
-		System.out.println("applying b  = " + Vector.multiplyScaler(impulse, b.getInverseMass()));
 		b.applyVector(Vector.multiplyScaler(impulse, b.getInverseMass()));
 	}
 

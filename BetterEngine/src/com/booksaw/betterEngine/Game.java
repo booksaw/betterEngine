@@ -3,7 +3,9 @@ package com.booksaw.betterEngine;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.booksaw.betterEngine.camera.Camera;
 import com.booksaw.betterEngine.gameRendering.RenderManager;
@@ -99,9 +101,19 @@ public class Game implements Updatable {
 
 	@Override
 	public void update() {
-		checkCollisions();
+//		checkCollisions();
 	}
 
+	/**
+	 * Used to cehck if this object is colliding with another
+	 * <p>
+	 * Any collision found between this object and another will be resolved
+	 * </p>
+	 * 
+	 * @param object The object to check
+	 * @return If any collisions have been resolved (used to cancel location
+	 *         updates)
+	 */
 	public boolean checkCollisions(Object object) {
 		boolean toReturn = false;
 		for (Object i : objects.keySet()) {
@@ -116,27 +128,30 @@ public class Game implements Updatable {
 			}
 
 		}
-		System.out.println("toReturn = " + toReturn);
 		return toReturn;
 	}
 
+	/**
+	 * Used to check and resolve all collisions, NOTE this will not push objects out
+	 * of each other
+	 */
 	public void checkCollisions() {
-//		List<Object> checked = new ArrayList<>();
-//		for (Object obj : objects.keySet()) {
-//			checked.add(obj);
-//
-//			for (Object i : objects.keySet()) {
-//				if (checked.contains(i)) {
-//					continue;
-//				}
-//
-//				if (obj.getBoundingBox().isColliding(i.getBoundingBox())) {
-//					Collision.resolveCollision(obj, i);
-//				}
-//
-//			}
-//
-//		}
+		List<Object> checked = new ArrayList<>();
+		for (Object obj : objects.keySet()) {
+			checked.add(obj);
+
+			for (Object i : objects.keySet()) {
+				if (checked.contains(i)) {
+					continue;
+				}
+
+				if (obj.getBoundingBox().isColliding(i.getBoundingBox())) {
+					Collision.resolveCollision(obj, i);
+				}
+
+			}
+
+		}
 	}
 
 }

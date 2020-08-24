@@ -185,16 +185,16 @@ public abstract class Object implements Updatable {
 	private void applyVelocityVector() {
 		Location finalLoc = location.getCopy();
 
-		// applying the hard limit to the velocity of width/2 - (width *0.0001)
+		// applying the hard limit to the velocity of width - (width *0.0001)
 		// this is done so in a single update, an object cannot fully clip into another
 		// object
-		double xLim = width / 2 - (width * 0.0001);
+		double xLim = width - (width * 0.0001);
 
 		if (xLim < velocity.getY()) {
 			velocity.setY(xLim);
 		}
 
-		double yLim = height / 2 - (height * 0.0001);
+		double yLim = height - (height * 0.0001);
 
 		if (yLim < velocity.getY()) {
 			velocity.setY(yLim);
@@ -205,6 +205,8 @@ public abstract class Object implements Updatable {
 		Location current = location;
 		setLocation(finalLoc);
 
+		// if it cannot actually travel there, moving the object back to the previous
+		// location
 		if (game.checkCollisions(this)) {
 			setLocation(current);
 		}
@@ -320,7 +322,6 @@ public abstract class Object implements Updatable {
 	@Override
 	public void update() {
 		applyVelocityVector();
-		System.out.println(getBoundingBox() + " " + velocity);
 	}
 
 }
