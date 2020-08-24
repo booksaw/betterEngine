@@ -37,6 +37,7 @@ public class Main implements Listener, Updatable {
 //		obj.applyVector(Vector.createVectorFromXY(.1, 0));
 		Sprite obj2 = new Sprite(game, new Location(15, 25), 10, 30);
 		obj2.addMovement(new TopDownMovement());
+		obj2.setMass(1);
 
 		game.addObject(obj);
 		game.addObject(obj2);

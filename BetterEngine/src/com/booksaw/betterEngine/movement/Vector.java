@@ -149,6 +149,9 @@ public class Vector {
 	}
 
 	public void setX(double x) {
+		if (Double.isNaN(x)) {
+			return;
+		}
 		this.x = x;
 	}
 
@@ -158,6 +161,9 @@ public class Vector {
 	 * @param x The x component to add
 	 */
 	public void addX(double x) {
+		if (Double.isNaN(x)) {
+			return;
+		}
 		this.x += x;
 	}
 
@@ -166,6 +172,9 @@ public class Vector {
 	}
 
 	public void setY(double y) {
+		if (Double.isNaN(y)) {
+			return;
+		}
 		this.y = y;
 	}
 
@@ -175,6 +184,9 @@ public class Vector {
 	 * @param y The y component to add
 	 */
 	public void addY(double y) {
+		if (Double.isNaN(y)) {
+			return;
+		}
 		this.y += y;
 	}
 

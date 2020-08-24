@@ -24,23 +24,27 @@ public class Collision {
 		double velAlongNormal = Vector.dotProduct(rv, normal);
 
 		// Do not resolve if velocities are separating
-		if (velAlongNormal > 0) {
-			return;
-		}
+//		if (velAlongNormal > 0) {
+//			return;
+//		}
+
+		// TODO fix velAlongNormal
 
 		// Calculate restitution
 		double e = Math.min(a.getRestitution(), b.getRestitution());
 
 		// Calculate impulse scalar
-		double j = -(1 + e) * velAlongNormal;
+		double j = -(1 + e) /* * velAlongNormal */;
+
 		j /= a.getInverseMass() + b.getInverseMass();
 
 		// Apply impulse
 		Vector impulse = Vector.multiplyScaler(normal, j);
 		Vector aChange = Vector.multiplyScaler(impulse, a.getInverseMass());
 		aChange.invert();
-		System.out.println(aChange);
+		System.out.println("applying a = " + aChange);
 		a.applyVector(aChange);
+		System.out.println("applying b  = " + Vector.multiplyScaler(impulse, b.getInverseMass()));
 		b.applyVector(Vector.multiplyScaler(impulse, b.getInverseMass()));
 	}
 
@@ -56,6 +60,7 @@ public class Collision {
 	 * @return If they are colliding
 	 */
 	public boolean isColliding(Circle circle, Edge edge) {
+		// TODO FIX
 		// finding the shortest distance between the point and the line
 		double distance = Math.abs((-edge.getGradient() * circle.getLocation().getX()) + circle.getLocation().getY()
 				- edge.getYIntercept()) / Math.sqrt(Math.pow(edge.getGradient(), 2) + 1);
