@@ -32,6 +32,7 @@ public class Main {
 		editorFrame = new JFrame(NAME);
 		editorFrame.setSize(900, 600);
 		editorFrame.setLocationRelativeTo(null);
+		editorFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// showing the editor frame
 		editorFrame.setVisible(true);
