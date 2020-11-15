@@ -4,8 +4,10 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import com.booksaw.betterEditor.panels.Panel;
 import com.booksaw.betterEditor.window.MainWindow;
 import com.booksaw.betterEngine.Game;
+import com.booksaw.betterEngine.utils.TypeList;
 
 /**
  * The main class of the editor
@@ -22,6 +24,9 @@ public class Main {
 	public static Main instance;
 
 	public static void main(String[] args) {
+		
+		TypeList<Panel> typeList = new TypeList<>(); 
+		
 		new Main();
 	}
 

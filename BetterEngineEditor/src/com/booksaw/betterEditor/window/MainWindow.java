@@ -6,7 +6,11 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.booksaw.betterEditor.panels.BlankPanel;
+import com.booksaw.betterEditor.panels.ConsolePanel;
+import com.booksaw.betterEditor.panels.GamePanel;
+import com.booksaw.betterEditor.panels.MenuBar;
+import com.booksaw.betterEditor.panels.PropertiesPanel;
+import com.booksaw.betterEditor.panels.SelectionPanel;
 import com.booksaw.betterEditor.panels.Subdivision;
 import com.booksaw.betterEngine.Game;
 
@@ -20,7 +24,7 @@ import com.booksaw.betterEngine.Game;
 public class MainWindow implements Window {
 
 	private JFrame frame;
-	private Game game;
+	private final Game game;
 
 	public MainWindow(Game game) {
 		this.game = game;
@@ -28,8 +32,17 @@ public class MainWindow implements Window {
 
 	@Override
 	public JPanel getPanel(JFrame frame) {
+		this.frame = frame;
+
 		JPanel panel = new JPanel(new GridLayout());
-		panel.add(new Subdivision(new BlankPanel(null), new BlankPanel(null), true, true, null).getPanel());
+
+		Subdivision gameSub = new Subdivision(
+				new Subdivision(new GamePanel(null), new ConsolePanel(null), false, true, null),
+				new PropertiesPanel(null), true, true, null);
+
+		Subdivision sub = new Subdivision(new SelectionPanel(null), gameSub, true, true, null);
+
+		panel.add(new Subdivision(new MenuBar(null), sub, false, true, null).getPanel());
 		return panel;
 	}
 
@@ -41,6 +54,14 @@ public class MainWindow implements Window {
 	@Override
 	public boolean canResize() {
 		return true;
+	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public Game getGame() {
+		return game;
 	}
 
 }
