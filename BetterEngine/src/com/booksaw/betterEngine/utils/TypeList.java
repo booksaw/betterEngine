@@ -1,6 +1,5 @@
 package com.booksaw.betterEngine.utils;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
@@ -94,8 +93,7 @@ public class TypeList<T> {
 			throw new NullPointerException("Type provided cannot be null");
 		}
 
-		Constructor<? extends T> construct = type.getConstructor();
-		return construct.newInstance();
+		return type.newInstance();
 	}
 
 	/**
