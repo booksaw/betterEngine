@@ -1,5 +1,7 @@
 package com.booksaw.betterEngine;
 
+import java.awt.image.BufferedImage;
+
 /**
  * Used to store all information about a game, for example version
  * 
@@ -24,4 +26,8 @@ public interface GameSettings {
 	 */
 	public abstract String getAuthors();
 
+	/**
+	 * @return The logo for the game windows
+	 */
+	public abstract BufferedImage getLogo();
 }
