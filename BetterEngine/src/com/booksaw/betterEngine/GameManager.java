@@ -20,7 +20,7 @@ package com.booksaw.betterEngine;
  */
 public abstract class GameManager {
 
-	private final GameSettings gameSettings;
+	private final GameSettings gameSettings; 
 
 	public GameManager() {
 		gameSettings = generateGameSettings();
