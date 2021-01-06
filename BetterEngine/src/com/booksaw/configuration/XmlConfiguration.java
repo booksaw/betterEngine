@@ -1,9 +1,17 @@
 package com.booksaw.configuration;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -32,12 +40,6 @@ public class XmlConfiguration extends FileConfiguration {
 	@Override
 	public ConfigurationOptions getConfigurationOptions() {
 		return new ConfigurationOptions("");
-	}
-
-	@Override
-	public void set(String reference, Object value) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -80,6 +82,26 @@ public class XmlConfiguration extends FileConfiguration {
 		}
 
 		return (Element) n;
+
+	}
+
+	@Override
+	public void save(File f) throws IOException {
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transf;
+		try {
+			transf = transformerFactory.newTransformer();
+
+			transf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+			transf.setOutputProperty(OutputKeys.INDENT, "yes");
+			transf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
+			DOMSource source = new DOMSource(document);
+			StreamResult file = new StreamResult(f);
+			transf.transform(source, file);
+		} catch (TransformerException e) {
+			throw new IOException(e);
+		}
 
 	}
 

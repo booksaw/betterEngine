@@ -3,7 +3,8 @@ package com.booksaw.testCode;
 import java.io.File;
 import java.io.IOException;
 
-import org.w3c.dom.NodeList;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import com.booksaw.betterEngine.event.Listener;
 import com.booksaw.betterEngine.timing.Updatable;
@@ -43,8 +44,18 @@ public class Main implements Listener, Updatable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		NodeList nList = config.getNodeList("user");
-		System.out.println(nList.getLength());
+		Element node = config.getElement("user");
+		Node ele = node.getElementsByTagName("firstname").item(0);
+		System.out.println(ele.getTextContent());
+		ele.setTextContent("test1");
+		System.out.println(ele.getTextContent());
+
+		try {
+			config.save(new File("users.xml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override

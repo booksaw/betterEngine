@@ -77,13 +77,6 @@ public abstract class FileConfiguration {
 	public abstract ConfigurationOptions getConfigurationOptions();
 
 	/**
-	 * Used to set a value in the config
-	 * @param reference The reference for that value
-	 * @param value The value to set
-	 */
-	public abstract void set(String reference, Object value);
-
-	/**
 	 * Used to get the object with that reference
 	 * 
 	 * @param reference The reference to search for
@@ -98,4 +91,6 @@ public abstract class FileConfiguration {
 	 * @return The object to get
 	 */
 	public abstract String getString(String reference);
+
+	public abstract void save(File f) throws IOException;
 }
